@@ -1,0 +1,41 @@
+use std::io;
+
+fn find_first_occurrence(arr: &[i32], target: i32) -> Option<usize> {
+    for (index, &num) in arr.iter().enumerate() {
+        if num == target {
+            return Some(index);
+        }
+        if num > target {
+            break; // Since the array is sorted, if num > target, we won't find the target further
+        }
+    }
+    None
+}
+
+fn main() {
+    println!("Enter the sorted array (space-separated integers):");
+    let mut input = String::new();
+    io::stdin().read_line(&mut input)
+        .expect("Failed to read line");
+
+    let sorted_array: Vec<i32> = input
+        .trim()
+        .split_whitespace()
+        .map(|s| s.parse().expect("Invalid input"))
+        .collect();
+
+    println!("Enter the target number:");
+    let mut input = String::new();
+    io::stdin().read_line(&mut input)
+        .expect("Failed to read line");
+
+    let target_number: i32 = input
+        .trim()
+        .parse()
+        .expect("Invalid input");
+
+    match find_first_occurrence(&sorted_array, target_number) {
+        Some(index) => println!("The first occurrence of {} is at index {}", target_number, index),
+        None => println!("{} not found in the array", target_number),
+    }
+}
