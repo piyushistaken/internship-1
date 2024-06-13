@@ -1,0 +1,45 @@
+// Define the structure of a binary tree node
+#[derive(Debug)]
+struct TreeNode {
+    left: Option<Box<TreeNode>>,
+    right: Option<Box<TreeNode>>,
+}
+
+impl TreeNode {
+    // Constructor for creating a new tree node
+    fn new() -> Self {
+        TreeNode {
+            left: None,
+            right: None,
+        }
+    }
+}
+
+// Function to calculate the maximum depth of a binary tree
+fn max_depth(root: Option<&Box<TreeNode>>) -> i32 {
+    match root {
+        None => 0,
+        Some(node) => {
+            // Recursively calculate the maximum depth of the left and right subtrees
+            let left_depth = max_depth(node.left.as_ref());
+            let right_depth = max_depth(node.right.as_ref());
+            
+            // Return the maximum depth among the left and right subtrees, plus 1 for the current node
+            1 + left_depth.max(right_depth)
+        }
+    }
+}
+
+fn main() {
+    // Example usage:
+    // Create a binary tree manually
+    let mut tree = TreeNode::new();
+    tree.left = Some(Box::new(TreeNode::new()));
+    tree.right = Some(Box::new(TreeNode {
+        left: Some(Box::new(TreeNode::new())),
+        right: Some(Box::new(TreeNode::new())),
+    }));
+
+    // Calculate and print the maximum depth of the tree
+    println!("Maximum depth of the tree: {}", max_depth(Some(&Box::new(tree))));
+}
