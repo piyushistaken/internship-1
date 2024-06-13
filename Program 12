@@ -1,0 +1,49 @@
+use std::io;
+
+fn main() {
+    // Prompt the user to enter the size of the array
+    println!("Enter the size of the array:");
+
+    // Read input for the size of the array
+    let mut input_size = String::new();
+    io::stdin().read_line(&mut input_size)
+        .expect("Failed to read line");
+
+    // Parse input size to usize
+    let size: usize = input_size.trim().parse()
+        .expect("Please enter a valid number");
+
+    // Prompt the user to enter elements of the array
+    println!("Enter {} elements for the array:", size);
+
+    // Read input for the array
+    let mut array = Vec::new();
+    for _ in 0..size {
+        let mut input_element = String::new();
+        io::stdin().read_line(&mut input_element)
+            .expect("Failed to read line");
+        let element: i32 = input_element.trim().parse()
+            .expect("Please enter a valid number");
+        array.push(element);
+    }
+
+    // Find the maximum subarray sum
+    let max_sum = find_max_subarray_sum(&array);
+
+    // Print the maximum subarray sum
+    println!("Maximum subarray sum: {}", max_sum);
+}
+
+fn find_max_subarray_sum(arr: &[i32]) -> i32 {
+    let mut max_sum = arr[0];
+    let mut current_sum = arr[0];
+
+    for &num in arr.iter().skip(1) {
+        // Choose between extending the current subarray or starting a new subarray
+        current_sum = num.max(current_sum + num);
+        // Update the maximum sum found so far
+        max_sum = max_sum.max(current_sum);
+    }
+
+    max_sum
+}
