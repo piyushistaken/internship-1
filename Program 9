@@ -1,0 +1,20 @@
+use std::io;
+
+fn main() {
+    // Prompt the user to enter a string
+    println!("Enter a string to reverse:");
+
+    // Read input from the user
+    let mut input_string = String::new();
+    io::stdin().read_line(&mut input_string)
+        .expect("Failed to read line");
+
+    // Remove trailing newline character
+    let input_string = input_string.trim();
+
+    // Reverse the string
+    let reversed_string: String = input_string.chars().rev().collect();
+
+    // Print the reversed string
+    println!("Reversed string: {}", reversed_string);
+}
