@@ -1,0 +1,92 @@
+use std::io;
+
+fn main() {
+    // Prompt the user to enter the size of the first array
+    println!("Enter the size of the first array:");
+
+    // Read input for the size of the first array
+    let mut input_size = String::new();
+    io::stdin().read_line(&mut input_size)
+        .expect("Failed to read line");
+
+    // Parse input size to u32
+    let size: usize = input_size.trim().parse()
+        .expect("Please enter a valid number");
+
+    // Prompt the user to enter elements of the first array
+    println!("Enter {} elements for the first array (sorted):", size);
+
+    // Read input for the first array
+    let mut first_array = Vec::new();
+    for _ in 0..size {
+        let mut input_element = String::new();
+        io::stdin().read_line(&mut input_element)
+            .expect("Failed to read line");
+        let element: i32 = input_element.trim().parse()
+            .expect("Please enter a valid number");
+        first_array.push(element);
+    }
+
+    // Prompt the user to enter the size of the second array
+    println!("Enter the size of the second array:");
+
+    // Read input for the size of the second array
+    input_size.clear(); // Clear the previous input
+    io::stdin().read_line(&mut input_size)
+        .expect("Failed to read line");
+
+    // Parse input size to u32
+    let size: usize = input_size.trim().parse()
+        .expect("Please enter a valid number");
+
+    // Prompt the user to enter elements of the second array
+    println!("Enter {} elements for the second array (sorted):", size);
+
+    // Read input for the second array
+    let mut second_array = Vec::new();
+    for _ in 0..size {
+        let mut input_element = String::new();
+        io::stdin().read_line(&mut input_element)
+            .expect("Failed to read line");
+        let element: i32 = input_element.trim().parse()
+            .expect("Please enter a valid number");
+        second_array.push(element);
+    }
+
+    // Merge the two sorted arrays
+    let merged_array = merge_sorted_arrays(&first_array, &second_array);
+
+    // Print the merged array
+    println!("Merged sorted array: {:?}", merged_array);
+}
+
+fn merge_sorted_arrays(arr1: &[i32], arr2: &[i32]) -> Vec<i32> {
+    let mut merged = Vec::new();
+    let mut i = 0;
+    let mut j = 0;
+
+    // Merge the arrays until one of them is exhausted
+    while i < arr1.len() && j < arr2.len() {
+        if arr1[i] < arr2[j] {
+            merged.push(arr1[i]);
+            i += 1;
+        } else {
+            merged.push(arr2[j]);
+            j += 1;
+        }
+    }
+
+    // Add remaining elements from the first array
+    while i < arr1.len() {
+        merged.push(arr1[i]);
+        i += 1;
+    }
+
+    // Add remaining elements from the second array
+    while j < arr2.len() {
+        merged.push(arr2[j]);
+        j += 1;
+    }
+
+    merged
+}
